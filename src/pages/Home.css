@@ -25,3 +25,13 @@
 .home_form button {
   margin: 10% 0;
 }
+
+.on {
+  font-size: 0.9em;
+  color: red;
+  font-weight: 500;
+}
+
+.off {
+  display: none;
+}
