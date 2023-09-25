@@ -1,0 +1,24 @@
+.game {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.answers {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20%;
+  width: 100%;
+  grid-template-areas:
+    "answer ."
+    ". .";
+}
+
+/* .answer {
+  grid-area: answer;
+} */
