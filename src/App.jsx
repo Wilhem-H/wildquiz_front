@@ -8,8 +8,8 @@ import { Game } from "./pages/Game";
 function App() {
   return (
     <div>
-      <Header />
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/inscription" element={<Inscription />} />

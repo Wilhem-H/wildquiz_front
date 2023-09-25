@@ -16,11 +16,8 @@ export default function Inscription() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
 
-  console.log(email);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email);
 
     if (password !== confirmPassword) {
       setError("Les mots de passe ne correspondent pas.");

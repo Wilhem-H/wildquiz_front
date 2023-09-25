@@ -13,11 +13,6 @@ export const questions = [
   },
 
   {
-    question: "",
-    options: ["", "", "", ""],
-    correctAnswer: "",
-  },
-  {
     question:
       "Quel outil est utilisé pour effectuer des tests unitaires en JavaScript ?",
     options: ["Cypress", "Supertest", "Jest", "Prisma"],

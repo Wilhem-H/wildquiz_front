@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo } from "react";
-import PropTypes from "prop-types";
+
 import useLocalStorage from "./useLocalStorage";
 
 const UserContext = createContext();
@@ -9,6 +9,16 @@ export function UserContextProvider({ children }) {
 
   const logout = () => {
     setUser(null);
+
+    fetch(
+      `${import.meta.env.VITE_BACKEND_URL ?? "http://localhost:5000"}/logout`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data === "logout") {
+          window.alert("Vous êtes déconnecté");
+        }
+      });
   };
 
   return (
@@ -23,9 +33,5 @@ export function UserContextProvider({ children }) {
     </UserContext.Provider>
   );
 }
-
-UserContextProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 export const useUser = () => useContext(UserContext);
