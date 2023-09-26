@@ -11,8 +11,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 8%;
+  padding: 5% 8%;
   background-color: rgb(250, 245, 245);
   border-radius: 10px;
   gap: 2vh;
+  margin-bottom: 4vh;
+}
+
+.inscription_button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3vh;
 }

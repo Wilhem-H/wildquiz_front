@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../contexts/UserContext";
 import { questions } from "../utils/quizData.js";
+import Button from "@mui/material/Button";
 import "./Game.css";
 
 function shuffleArray(array) {
@@ -9,9 +10,7 @@ function shuffleArray(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
-
 shuffleArray(questions);
-
 const selectedQuestions = questions.slice(0, 10);
 
 export function Game() {
@@ -31,9 +30,39 @@ export function Game() {
       });
   }, []);
 
+  const updateUser = () => {
+    fetch(
+      `${import.meta.env.VITE_BACKEND_URL ?? "http://localhost:5000"}/player/${
+        user.id
+      }`,
+      {
+        method: "put",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(user),
+      }
+    );
+  };
+
   const handleAnswerOptionClick = (isCorrect) => {
     if (selectedQuestions[currentQuestion].correctAnswer === isCorrect) {
       setScore(score + 1);
+      setUser((prevUser) => ({
+        ...prevUser,
+        score: prevUser.score + 1,
+      }));
+    } else {
+      if (user.score > 0) {
+        setUser((prevUser) => ({
+          ...prevUser,
+          score: prevUser.score - 1,
+        }));
+      }
+      if (score > 0) {
+        setScore(score - 1);
+      }
     }
 
     const nextQuestion = currentQuestion + 1;
@@ -41,7 +70,12 @@ export function Game() {
       setCurrentQuestion(nextQuestion);
     } else {
       setShowScore(true);
+      updateUser();
     }
+  };
+
+  const handleClick = () => {
+    window.location.reload();
   };
 
   return (
@@ -49,17 +83,32 @@ export function Game() {
       {showScore ? (
         <div className="game_score">
           <h1>Résultat :</h1>
-          <p>
+          <p className="game_myscore">
             {score} / {selectedQuestions.length}
           </p>
+          <Button
+            variant="contained"
+            onClick={handleClick}
+            style={{
+              backgroundColor: "#0b2c2d",
+            }}
+          >
+            Refaire une partie
+          </Button>
           <h3>Meilleurs scores:</h3>
-          {console.log(bestPlayer)}
-          {bestPlayer.map((player) => {
-            <div key={player.id}>
-              <p>{player.pseudo}</p>
-              <p>{player.score}</p>
-            </div>;
-          })}
+          <div className="game_ranking">
+            {bestPlayer
+              .slice()
+              .sort((a, b) => b.score - a.score)
+              .map((player) => {
+                return (
+                  <div key={player.id} className="game_ranking_info">
+                    <p>{player.pseudo}</p>
+                    <p>{player.score}</p>
+                  </div>
+                );
+              })}
+          </div>
         </div>
       ) : (
         <div className="game_play">

@@ -30,9 +30,13 @@ export default function Header() {
                 onClick={logout}
                 style={{
                   color: "#FFFFFF ",
+                  fontSize: "1em",
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "10vh",
                 }}
               >
-                <ExitToAppIcon />
+                <ExitToAppIcon fontSize="large" />
                 logout
               </IconButton>
               {/* <button onClick={logout}>log out</button> */}

@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import "./Inscription.css";
 
@@ -52,6 +53,18 @@ export default function Inscription() {
     }
   };
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        // main: "#343333",
+        main: "#daa520",
+      },
+      secondary: {
+        main: "#0b2c2d",
+      },
+    },
+  });
+
   return (
     <div className="inscription">
       <form className="inscription_form" onSubmit={handleSubmit}>
@@ -92,15 +105,17 @@ export default function Inscription() {
           required
         />
         <p className={error ? "on" : "off"}>{error}</p>
-        <div>
-          <Link to="/">
-            <IconButton aria-label="Brightness3">
-              <KeyboardReturnIcon />
-            </IconButton>
-          </Link>
-          <Button variant="outlined" type="submit">
-            Valider
-          </Button>
+        <div className="inscription_button">
+          <ThemeProvider theme={theme}>
+            <Link to="/">
+              <IconButton aria-label="Brightness3">
+                <KeyboardReturnIcon color="secondary" />
+              </IconButton>
+            </Link>
+            <Button variant="contained" type="submit" color="primary">
+              Valider
+            </Button>
+          </ThemeProvider>
         </div>
       </form>
     </div>
