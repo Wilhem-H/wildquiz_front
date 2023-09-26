@@ -9,3 +9,39 @@
   height: 20vh;
   border-radius: 10px;
 }
+
+.header_login {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95vw;
+}
+
+.header_login img {
+  height: 15vh;
+}
+
+.header_user {
+  display: flex;
+  width: 100%;
+}
+
+.header_userInfo {
+  display: flex;
+  height: 15vh;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 5%;
+}
+
+.header_userInfo p {
+  font-size: 1.5em;
+}
+
+.header_button {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

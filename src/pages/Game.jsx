@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useUser } from "../contexts/UserContext";
 import { questions } from "../utils/quizData.js";
 import "./Game.css";
 
@@ -14,9 +15,21 @@ shuffleArray(questions);
 const selectedQuestions = questions.slice(0, 10);
 
 export function Game() {
+  const { user, setUser } = useUser();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
+  const [bestPlayer, setBestPlayer] = useState({});
+
+  useEffect(() => {
+    fetch(
+      `${import.meta.env.VITE_BACKEND_URL ?? "http://localhost:5000"}/player`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setBestPlayer(data);
+      });
+  }, []);
 
   const handleAnswerOptionClick = (isCorrect) => {
     if (selectedQuestions[currentQuestion].correctAnswer === isCorrect) {
@@ -33,84 +46,45 @@ export function Game() {
 
   return (
     <div className="game">
-      <div className="question"> Question ici</div>
-      <div className="answers">
-        <div className="answer">Réponse 1 </div>
-        <div className="answer">Réponse 2</div>
-        <div className="answer">Réponse 3</div>
-        <div className="answer">réponse 4</div>
-      </div>
-
       {showScore ? (
-        <div className="score-section">
-          You scored {score} out of {selectedQuestions.length}
+        <div className="game_score">
+          <h1>Résultat :</h1>
+          <p>
+            {score} / {selectedQuestions.length}
+          </p>
+          <h3>Meilleurs scores:</h3>
+          {console.log(bestPlayer)}
+          {bestPlayer.map((player) => {
+            <div key={player.id}>
+              <p>{player.pseudo}</p>
+              <p>{player.score}</p>
+            </div>;
+          })}
         </div>
       ) : (
-        <>
-          <div className="question-section">
-            <div className="question-count">
+        <div className="game_play">
+          <div className="game_section1">
+            <div className="game_count">
               <span>Question {currentQuestion + 1}</span>/
               {selectedQuestions.length}
             </div>
-            <div className="question-text">
+            <div className="game_question">
               {selectedQuestions[currentQuestion].question}
             </div>
           </div>
-          <div className="answer-section">
+          <div className="game_answers">
             {selectedQuestions[currentQuestion].options.map((answerOption) => (
               <button
                 onClick={() => handleAnswerOptionClick(answerOption)}
                 key={answerOption}
+                className="game_answer"
               >
                 {answerOption}
               </button>
             ))}
           </div>
-        </>
+        </div>
       )}
     </div>
   );
-}
-
-export default function test() {
-  const questions = [
-    {
-      questionText: "What is the capital of France?",
-      answerOptions: [
-        { answerText: "New York", isCorrect: false },
-        { answerText: "London", isCorrect: false },
-        { answerText: "Paris", isCorrect: true },
-        { answerText: "Dublin", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "Who is CEO of Tesla?",
-      answerOptions: [
-        { answerText: "Jeff Bezos", isCorrect: false },
-        { answerText: "Elon Musk", isCorrect: true },
-        { answerText: "Bill Gates", isCorrect: false },
-        { answerText: "Tony Stark", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "The iPhone was created by which company?",
-      answerOptions: [
-        { answerText: "Apple", isCorrect: true },
-        { answerText: "Intel", isCorrect: false },
-        { answerText: "Amazon", isCorrect: false },
-        { answerText: "Microsoft", isCorrect: false },
-      ],
-    },
-    {
-      questionText: "How many Harry Potter books are there?",
-      answerOptions: [
-        { answerText: "1", isCorrect: false },
-        { answerText: "4", isCorrect: false },
-        { answerText: "6", isCorrect: false },
-        { answerText: "7", isCorrect: true },
-      ],
-    },
-  ];
-
-  return <div className="app"></div>;
 }

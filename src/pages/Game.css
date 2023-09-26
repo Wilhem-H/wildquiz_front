@@ -3,10 +3,50 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.2);
+  height: 60vh;
+  margin-top: 5vh;
+  /* background-color: rgba(0, 0, 0, 0.2); */
 }
 
-.answers {
+.game_play {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5vh;
+}
+
+.game_section1 {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  margin-top: 1vh;
+  margin-bottom: auto;
+}
+
+/* .game_count {
+  display: grid;
+} */
+
+.game_count span {
+  justify-self: end;
+}
+
+.game_question {
+  background-color: var(--main_color);
+  height: 15vh;
+  width: 80vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5%;
+  font-size: 1.2em;
+  border-radius: 7px;
+  color: var(--text_color);
+}
+
+.game_answers {
   display: grid;
   grid-auto-columns: 1fr;
   grid-auto-rows: 1fr;
@@ -14,11 +54,21 @@
   grid-template-rows: 1fr 1fr;
   gap: 20%;
   width: 100%;
+  height: 35vh;
+  padding: 2% 4%;
   grid-template-areas:
     "answer ."
     ". .";
 }
 
-/* .answer {
-  grid-area: answer;
-} */
+.game_answers button {
+  background-color: var(--main_color);
+  border: none;
+  border-radius: 7px;
+  color: white;
+}
+
+.game_answers button:hover {
+  cursor: pointer;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
