@@ -18,40 +18,72 @@ export default function Home() {
 
   const handleClick = (event) => {
     event.preventDefault();
-    fetch(
-      `${
-        import.meta.env.VITE_BACKEND_URL ?? "http://localhost:5000"
-      }/player/login`,
-      {
-        method: "post",
-        headers: {
-          "content-type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.user) {
-          setUser(data.user);
-          console.log("coucou");
-          navigate("/game");
-        } else {
-          setError(true);
-          setTimeout(() => {
-            setError(false);
-          }, "5000");
+    if (email === "admin@admin.fr") {
+      fetch(
+        `${
+          import.meta.env.VITE_BACKEND_URL ?? "http://localhost:5000"
+        }/admin/login`,
+        {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
         }
-      });
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.user) {
+            setUser(data.user);
+            console.log("coucou");
+            navigate("/admin");
+          } else {
+            setError(true);
+            setTimeout(() => {
+              setError(false);
+            }, "5000");
+          }
+        });
+    } else {
+      fetch(
+        `${
+          import.meta.env.VITE_BACKEND_URL ?? "http://localhost:5000"
+        }/player/login`,
+        {
+          method: "post",
+          headers: {
+            "content-type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.user) {
+            setUser(data.user);
+            console.log("coucou");
+            navigate("/game");
+          } else {
+            setError(true);
+            setTimeout(() => {
+              setError(false);
+            }, "5000");
+          }
+        });
+    }
   };
 
   return (
     <div className="home">
-      <form className="home_form">
+      <form className="home_form" onSubmit={handleClick}>
         <h1>Connectez-vous</h1>
         <p className={error ? "on" : "off"}>E-mail ou mot de passe invalides</p>
         <TextField
@@ -75,7 +107,7 @@ export default function Home() {
 
         <Button
           variant="contained"
-          onClick={handleClick}
+          type="submit"
           style={{
             backgroundColor: "#daa520",
           }}
