@@ -52,3 +52,7 @@
   border: solid 1px black;
   padding: 1%;
 }
+
+#admin_user_score {
+  margin-left: 20%;
+}

@@ -22,6 +22,7 @@ export default function AdminPage() {
   const [allUsers, setAllUsers] = useState([]);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(null);
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -67,6 +68,10 @@ export default function AdminPage() {
     setOpen(false);
   };
 
+  const EditMode = () => {
+    setEdit((value) => !value);
+  };
+
   return (
     <div className="admin">
       <div className="admin_users">
@@ -75,11 +80,21 @@ export default function AdminPage() {
         {allUsers.map((user) => {
           return (
             <div className="admin_user" key={user.id}>
-              <p>{user.pseudo}</p>
-              <p>{user.email}</p>
-              <p>{user.score}</p>
+              {edit ? (
+                <>
+                  <input type="text" defaultValue={user.pseudo} />
+                  <input type="text" defaultValue={user.email} />
+                  <input type="text" defaultValue={user.score} />
+                </>
+              ) : (
+                <>
+                  <p>{user.pseudo}</p>
+                  <p>{user.email}</p>
+                  <p id="admin_user_score">{user.score}</p>
+                </>
+              )}
 
-              <IconButton aria-label="Brightness3">
+              <IconButton aria-label="Brightness3" onClick={EditMode}>
                 <EditIcon />
               </IconButton>
 
