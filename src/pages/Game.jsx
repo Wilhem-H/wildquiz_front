@@ -20,6 +20,35 @@ export function Game() {
   const [score, setScore] = useState(0);
   const [bestPlayer, setBestPlayer] = useState({});
 
+  const [timer, setTimer] = useState(10);
+  useEffect(() => {
+    let intervalId;
+
+    if (!showScore && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else if (timer === 0 && !showScore) {
+      // Si le timer atteint 0 et que le jeu est en cours, passez à la question suivante
+      const nextQuestion = currentQuestion + 1;
+      if (nextQuestion < selectedQuestions.length) {
+        setCurrentQuestion(nextQuestion);
+        setTimer(10); // Réinitialisez le timer pour la nouvelle question
+      } else {
+        setShowScore(true);
+        updateUser();
+      }
+    }
+
+    // Nettoyage de l'intervalle lorsque le composant est démonté ou lorsque le jeu se termine
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [currentQuestion, showScore, timer]);
+  const resetTimer = () => {
+    setTimer(10);
+  };
+
   useEffect(() => {
     fetch(
       `${import.meta.env.VITE_BACKEND_URL ?? "http://localhost:5000"}/player`
@@ -68,6 +97,7 @@ export function Game() {
     const nextQuestion = currentQuestion + 1;
     if (nextQuestion < selectedQuestions.length) {
       setCurrentQuestion(nextQuestion);
+      resetTimer();
     } else {
       setShowScore(true);
       updateUser();
@@ -114,8 +144,12 @@ export function Game() {
         <div className="game_play">
           <div className="game_section1">
             <div className="game_count">
-              <span>Question {currentQuestion + 1}</span>/
-              {selectedQuestions.length}
+              <div>
+                <span>Question {currentQuestion + 1}</span>/
+                {selectedQuestions.length}
+              </div>
+
+              <div className="timer">Temps restant : {timer} s</div>
             </div>
             <div className="game_question">
               {selectedQuestions[currentQuestion].question}

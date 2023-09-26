@@ -25,9 +25,11 @@
   margin-bottom: auto;
 }
 
-/* .game_count {
-  display: grid;
-} */
+.game_count {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
 
 .game_count span {
   justify-self: end;
