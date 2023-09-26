@@ -35,3 +35,15 @@
 .off {
   display: none;
 }
+
+@media screen and (max-width: 900px) {
+  .home_form {
+    margin-top: 2vh;
+  }
+
+  .home_form h1 {
+    font-size: 1.8em;
+    margin-top: 2vh;
+    margin-bottom: 10%;
+  }
+}

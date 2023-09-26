@@ -25,3 +25,9 @@
   align-items: center;
   margin-top: 3vh;
 }
+
+@media screen and (max-width: 900px) {
+  .inscription_form {
+    margin-top: 2vh;
+  }
+}
